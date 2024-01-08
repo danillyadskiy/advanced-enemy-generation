@@ -2,10 +2,19 @@ using UnityEngine;
 
 public class Mover : MonoBehaviour
 {
-    private readonly float _speed = 0.01f;
+    [SerializeField, Min(1f)] private float _speed;
+    
+    private Vector3 _direction;
+
+    public void SetDirection(Vector3 direction)
+    {
+        direction.Normalize();
+        _direction = direction;
+    }
     
     private void Update()
     {
-        transform.Translate(0, 0, _speed);
+        transform.Translate(_direction * (_speed * Time.deltaTime), Space.World);
+        transform.forward = _direction;
     }
 }
