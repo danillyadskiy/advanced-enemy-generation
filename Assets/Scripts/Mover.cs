@@ -1,20 +1,19 @@
+using System;
 using UnityEngine;
 
 public class Mover : MonoBehaviour
 {
     [SerializeField, Min(1f)] private float _speed;
     
-    private Vector3 _direction;
+    private Transform _target;
 
-    public void SetDirection(Vector3 direction)
+    public void MoveTo(Transform target)
     {
-        direction.Normalize();
-        _direction = direction;
+        _target = target;
     }
-    
+
     private void Update()
     {
-        transform.Translate(_direction * (_speed * Time.deltaTime), Space.World);
-        transform.forward = _direction;
+        transform.position = Vector3.MoveTowards(transform.position, _target.position, _speed * Time.deltaTime);
     }
 }
