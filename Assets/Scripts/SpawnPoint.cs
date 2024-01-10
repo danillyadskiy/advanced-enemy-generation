@@ -2,13 +2,29 @@ using UnityEngine;
 
 public class SpawnPoint : MonoBehaviour
 {
-    [SerializeField] private SpawnTarget _spawnTarget;
-    [SerializeField] private Mover _mover;
+    [SerializeField] private Target _target;
+    [SerializeField] private Follower _follower;
 
-    public void Spawn()
+    private Target _spawnedTarget;
+    private Follower _spawnedFollower;
+
+    public void SpawnTarget()
     {
-        Mover mover = Instantiate(_mover, transform.position, Quaternion.identity);
-        mover.transform.LookAt(_spawnTarget.transform);
-        mover.MoveTo(_spawnTarget.transform);
+        _spawnedTarget = Instantiate(_target, transform.position, Quaternion.identity);
+        _spawnedTarget.MoveTowards(new Vector3(GetRandom(), 0, GetRandom()));
+    }
+
+    public void SpawnFollower()
+    {
+        _spawnedFollower = Instantiate(_follower, transform.position, Quaternion.identity);
+        _spawnedFollower.Follow(_spawnedTarget);
+    }
+    
+    private float GetRandom()
+    {
+        float minInclusive = -10f;
+        float maxInclusive = 10f; 
+        
+        return Random.Range(minInclusive, maxInclusive);
     }
 }

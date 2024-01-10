@@ -18,7 +18,10 @@ public class Spawner : MonoBehaviour
 
         foreach (SpawnPoint spawnPoint in _spawnPoints)
         {
-            spawnPoint.Spawn();
+            spawnPoint.SpawnTarget();
+            yield return wait;
+
+            spawnPoint.SpawnFollower();
             yield return wait;
         }
     }
